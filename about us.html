@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <script src="search.js"></script>
+
+    <title>About Us - Heartstrings Café</title>
+    <style>
+        
+        body {
+            background-color: #f8f1eb;
+            color: #333;
+            overflow-x: hidden;
+            background-image: url('about us.jpg');
+            background-repeat: no-repeat;
+            background-size:1600px 400px ;
+        }
+
+    
+
+
+* {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+           font-family: Arial, sans-serif;
+       }
+       .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #222;
+            padding: 30px 40px;
+            position: fixed;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+
+
+body {
+    padding-top: 60px; 
+}
+
+       .nav-left .search-bar {
+           padding: 8px;
+           border: none;
+           border-radius: 5px;
+           width: 200px;
+       }
+
+       .nav-center {
+           display: flex;
+           align-items: center;
+           flex-grow: 1;
+           justify-content: center;
+           position: relative;
+       }
+
+       .nav-center .nav-links {
+           list-style: none;
+           display: flex;
+           align-items: center;
+       }
+
+       .nav-center .nav-links li {
+           margin: 0 15px;
+       }
+
+       .nav-center .nav-links a {
+           text-decoration: none;
+           color: white;
+           font-size: 16px;
+           transition: 0.3s;
+       }
+
+       .nav-center .nav-links a:hover {
+           color: #f4a700;
+       }
+
+       .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -12px; /* Move the logo slightly higher */
+    z-index: 1000;
+    
+    width: 100px; /* Adjust width to make it a perfect circle */
+    height: 100px; /* Equal width and height for a circle */
+    background-color: white;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 50%; /* Makes the shape a perfect circle */
+    padding: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    overflow: hidden; /* Ensures image stays inside */
+}
+
+/* Ensuring the logo image fits inside the circle properly */
+.logo img {
+    width: 90%; /* Ensure it fits within the circle */
+    height: auto;
+    object-fit: contain; /* Prevents distortion */
+}
+
+       /* Ensure navigation links are spaced correctly */
+       .nav-center .nav-links:first-child {
+           margin-right: 160px; /* Space to accommodate logo */
+       }
+
+       .nav-center .nav-links:last-child {
+           margin-left: 160px; /* Space to accommodate logo */
+       }
+
+       .nav-right {
+           display: flex;
+           align-items: center;
+       }
+
+       .nav-right .login {
+           color: white;
+           text-decoration: none;
+           margin-right: 15px;
+           font-size: 16px;
+       }
+
+       .nav-right .cart-icon {
+           font-size: 20px;
+           color: white;
+           text-decoration: none;
+       }
+
+       .nav-right a:hover {
+           color: #f4a700;
+       }
+        /* Dropdown Styling */
+   .dropdown {
+       position: relative;
+       display: inline-block;
+   }
+
+   .dropdown-content {
+       display: none;
+       position: absolute;
+       background-color: #222;
+       min-width: 160px;
+       box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+       z-index: 1;
+       border-radius: 5px;
+   }
+
+   .dropdown-content a {
+       color: white;
+       padding: 12px 16px;
+       display: block;
+       text-decoration: none;
+       transition: 0.3s;
+   }
+
+   .dropdown-content a:hover {
+       background-color: #444;
+       color: #f4a700;
+   }
+
+   .dropdown:hover .dropdown-content {
+       display: block;
+   }
+
+        .about-section {
+            width: 100%;
+            height: 50vh;
+            background: url('background.jpg') no-repeat center center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .about-overlay {
+            position: absolute;
+            top: 70%;
+            right: 40%;
+            font-size: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .about-content {
+            height: 50vh;
+            overflow-y: scroll;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .about-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .about-container, .about-invation, .about-core {
+            width: 70%;
+            max-width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+
+        .about-container img, .about-invation img, .about-core img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h1,h2{
+            font-size: 22px;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+
+        .about-text p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .nav-links {
+                flex-direction: column;
+                margin-top: 10px;
+            }
+            .logo img {
+                width: 50px;
+            }
+            .about-container, .about-invation, .about-core {
+                flex-direction: column;
+                text-align: center;
+            }
+            .about-overlay {
+                font-size: 35px;
+                top: 10%;
+                right: 50%;
+            }
+            .about-container img, .about-invation img, .about-core img {
+                width: 100%;
+            }
+        }
+        .about-invation p1{
+            font-weight: bold;
+        }
+  /* Search Bar Styling */
+  .search-bar {
+            width: 100%;
+            max-width: 250px; /* Capped to fit navbar */
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px 0; /* Adjusted to prevent navbar growth */
+        }
+
+        .search-results {
+            max-width: 250px; /* Match search bar */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #fff;
+            position: absolute;
+            z-index: 1000;
+            display: none;
+            top: 100%;
+            left: 25px; /* Align with search bar */
+        }
+
+        .search-results .result-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-results .result-item:hover {
+            background: #f5f5f5;
+        }
+
+        .search-results .result-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .search-results .result-item p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .search-results .result-item p span {
+            font-weight: bold;
+        }
+
+        .search-results .no-results, .search-results .error {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .search-results .error {
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a>🔎</a>  <input type="text" id="searchBar" placeholder="Search products..." class="search-bar" onkeyup="searchProducts()">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        <div class="nav-center">
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about us.html">About Us</a></li>
+                <li><a href="story.html">Story</a></li>
+            </ul>
+            <div class="logo">
+                <img src="Heart strings.png" alt="Cafe Niloufer">
+            </div>
+            <ul class="nav-links">
+                <li><a href="orders.html">Orders</a></li>
+                <li class="dropdown">
+                    <a href="#">Shop Now</a>
+                    <div class="dropdown-content">
+                        <a href="coffee.php">Coffee</a>
+                        <a href="shakes.php">shakes</a>
+                        <a href="food.php">Food</a>
+                        <a href="desserts.php">Desserts</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                <a href="#">Reach Us</a>
+                <div class="dropdown-content">
+                    <a href="faq.html">FAQs</a>
+                    <a href="contactus.html">Contact us</a>
+                    <a href="review.html">Review</a>
+                </div>
+            </li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <a href="login.html" class="login">Login / Register</a>
+            <a href="mycart.html" class="cart-icon">🛒</a>
+            <a href="profile.php">
+                <i class="fa-solid fa-circle-user fa-lg" style="color: #ffffff;"></i>
+            </a>
+            
+        </div>
+    </nav>
+    <div class="about-section">
+        <div class="about-overlay">ABOUT US</div>
+    </div>
+
+    <div class="about-content">
+        <div class="about-container">
+            <img src="couple.jpg" alt="Couple Drinking Coffee">
+            <div class="about-text">
+                <h1>About Heartstrings Café</h1>
+               <p> “Every cup of coffee brings two hearts closer,”** reflects our mission—to create a warm and inviting space where friendships blossom, love stories unfold, and moments turn into memories. Whether you’re here for a quiet morning brew, a cozy date, or a heartfelt catch-up with friends, Heartstrings Café is your home away from home.  </p>
+               <p>Come sip, savor, and connect—one cup at a time. ❤️☕ </p>
+                
+                
+            </div>
+        </div>
+        <div class="about-container">
+            <img src="HS.png" alt="Couple Drinking Coffee">
+            <div class="about-text">
+                
+               <h2>  🧡 Philosophical Tone:</h2>
+                <p>"It's not the food served, but the heartstrings it touches that represent a nation's true culture."</p>
+                
+                <h2>🌾 Culturally Rooted Version:</h2>
+                <p>"Culture isn’t just in the food on the plate — it’s in the warmth, the stories, and the shared moments that pull at our heartstrings."</p>
+                
+                <h2>✨ Poetic Version:</h2>
+                <p>"A nation’s soul is stitched not through its cuisine, but through the heartstrings woven around the act of sharing."</p>
+                
+                <h2>💬 Simple and Clear:</h2>
+                <p>"True culture is not about the food we serve, but the love and connection we share."</p>
+                
+               
+                
+                
+            </div>
+        </div>
+        
+        <div class="about-invation">
+            <img src="invation.png" alt="Innovation">
+            <div class="about-text">
+                <h1>Innovative Ordering Experience</h1>
+                <p>At Heartstrings Café, we believe in blending comfort, convenience, and technology to create a seamless experience for our guests. That’s why we’ve introduced an innovative way to place orders—right from your seat!</p>
+                    <p1> 🪑 Order from Your Chair – No More Waiting in Line!</p1>
+                   <p> We’ve transformed the traditional ordering system with smart, table-side ordering technology. Now, you can browse the menu, customize your drink, and place your order—all without leaving your seat!</p>
+            </div>
+        </div>
+        
+        <div class="about-core">
+            <img src="core.jpg" alt="Core Values">
+            <div class="about-text">
+                <h1>Our Core Values</h1>
+               <p>☕ Connection Through Coffee – We believe that every cup of coffee has the power to bring people closer, spark conversations, and create lasting memories.</p>
+
+<p>❤️ Warmth & Hospitality – Our café is a home away from home, where every guest is welcomed with kindness, care, and a heartfelt smile.</p>
+
+<p>🌿 Sustainability & Responsibility – We are committed to ethically sourced coffee, eco-friendly practices, and making a positive impact on our environment.</p>
+
+<p>🎨 Creativity & Expression – We encourage storytelling, artistic expression, and open dialogue, making our space an inspiring hub for creativity.</p>
+
+<p>📖 Every Cup, A New Story – We celebrate the moments and stories shared at our café, fostering a space where friendships and love flourish.</p>
+                  </div>
+        </div>
+        <div class="about-core">
+            <img src="culture.jpg" alt="Core Values">
+            <div class="about-text">
+                <h1>our culture</h1>
+               <p> ✨ A Cozy, Inviting Atmosphere – We have carefully designed our café to be a warm and intimate space where people feel comfortable and connected.</p>
+
+                <p>🎶 Music & Art-Filled Ambience – Soft acoustic music, artistic décor, and a welcoming ambiance make every visit special.</p>
+
+                    <p>🫶 A Community-Centric Space – We host live performances, poetry nights, and storytelling events to bring people together and celebrate human connection.</p>
+
+                        <p>📲 Innovation & Convenience – Our digital ordering system ensures a seamless experience, allowing customers to order from their seats without interruption.</p>
+
+                            <p>💚 Respect & Inclusivity – We welcome people from all walks of life and strive to create a space where everyone feels valued and respected.</p>
+
+                                <p>At Heartstrings Café, we believe that coffee is more than just a drink—it’s an experience, a connection, and a moment worth cherishing. Come sip, savor, and create beautiful memories with us! ☕💖</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+
+document.addEventListener("DOMContentLoaded", function () {
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    localStorage.setItem("receivedOrders", JSON.stringify(orders)); // Auto-forward to received orders
+});
+
+
+    </script>
+    
+
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #333;
+        }
+        .container {
+            background-color: #c267e9;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            margin: auto;
+        }
+        .section {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: white;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #6a0dad;
+            color: white;
+            border-radius: 5px 5px 0 0;
+        }
+        .highlight {
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #6a0dad;
+            margin-bottom: 20px;
+        }
+        .error, .no-data {
+            color: red;
+            text-align: center;
+            font-style: italic;
+            margin: 10px 0;
+        }
+        .loading {
+            color: #6a0dad;
+            font-style: italic;
+            margin: 10px 0;
+        }
+        canvas {
+            max-width: 100%;
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 10px;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .filter-form label {
+            font-weight: bold;
+            color: #333;
+        }
+        .filter-form input[type="date"] {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .filter-form button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+        .filter-form .apply-btn {
+            background-color: #6a0dad;
+        }
+        .filter-form .apply-btn:hover {
+            background-color: #5808b8;
+        }
+        .filter-form .reset-btn {
+            background-color: #6c757d;
+        }
+        .filter-form .reset-btn:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Cafe Analytics Dashboard</div>
+    <div class="container">
+        <div class="section">
+            <h2>Filter by Date</h2>
+            <form class="filter-form" id="dateFilterForm">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="start_date">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="end_date">
+                <button type="submit" class="apply-btn">Apply Filter</button>
+                <button type="button" class="reset-btn" onclick="resetFilter()">Reset Filter</button>
+            </form>
+        </div>
+
+        <div class="section" id="ordersByDate">
+            <h2>Orders by Date</h2>
+            <div class="loading" id="ordersLoading" style="display: none;">Loading...</div>
+            <canvas id="ordersChart"></canvas>
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Order Count</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="no-data" id="ordersNoData" style="display: none;">No orders found for the selected period.</div>
+        </div>
+
+        <div class="section" id="highestSaleProduct">
+            <h2>Highest Selling Product</h2>
+            <div class="loading" id="productLoading" style="display: none;">Loading...</div>
+            <div class="highlight" id="productDetails">No sales data available.</div>
+        </div>
+
+        <div class="section" id="categoryAnalysis">
+            <h2>Food Category Analysis</h2>
+            <div class="loading" id="categoryLoading" style="display: none;">Loading...</div>
+            <table id="categoryTable">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Food Item</th>
+                        <th>Item Count</th>
+                        <th>Total Revenue (₹)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="no-data" id="categoryNoData" style="display: none;">No items sold in the selected period.</div>
+        </div>
+
+        <div class="section" id="averageOrderValue">
+            <h2>Average Order Value</h2>
+            <div class="loading" id="avgOrderLoading" style="display: none;">Loading...</div>
+            <div class="highlight" id="avgOrderValue">₹0.00</div>
+        </div>
+
+        <div class="error" id="errorMessage" style="display: none;"></div>
+    </div>
+
+    <script>
+        let chartInstance = null;
+
+        function showLoading(show) {
+            const loadingIds = ['ordersLoading', 'productLoading', 'categoryLoading', 'avgOrderLoading'];
+            loadingIds.forEach(id => {
+                document.getElementById(id).style.display = show ? 'block' : 'none';
+            });
+        }
+
+        function fetchData(startDate = '', endDate = '') {
+            showLoading(true);
+            const url = startDate && endDate 
+                ? `analytics.php?start_date=${startDate}&end_date=${endDate}`
+                : 'analytics.php';
+
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('ordersNoData').style.display = 'none';
+            document.getElementById('categoryNoData').style.display = 'none';
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    showLoading(false);
+                    if (!data.success) {
+                        document.getElementById('errorMessage').innerText = data.message || 'Unknown error';
+                        document.getElementById('errorMessage').style.display = 'block';
+                        return;
+                    }
+
+                    console.log('Debug:', data.debug);
+
+                    // Orders by Date
+                    const ordersTableBody = document.querySelector('#ordersTable tbody');
+                    ordersTableBody.innerHTML = '';
+                    const ordersNoData = document.getElementById('ordersNoData');
+                    if (!data.orders_by_date || data.orders_by_date.length === 0) {
+                        ordersNoData.style.display = 'block';
+                    } else {
+                        data.orders_by_date.forEach(order => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${order.order_date || 'N/A'}</td>
+                                <td>${order.order_count || 0}</td>
+                            `;
+                            ordersTableBody.appendChild(row);
+                        });
+                    }
+
+                    // Chart
+                    const ctx = document.getElementById('ordersChart').getContext('2d');
+                    if (chartInstance) {
+                        chartInstance.destroy();
+                    }
+                    chartInstance = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: data.orders_by_date.map(order => order.order_date || 'N/A'),
+                            datasets: [{
+                                label: 'Order Count',
+                                data: data.orders_by_date.map(order => order.order_count || 0),
+                                borderColor: '#6a0dad',
+                                backgroundColor: 'rgba(106, 13, 173, 0.2)',
+                                fill: false,
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: { beginAtZero: true, title: { display: true, text: 'Number of Orders' } },
+                                x: { title: { display: true, text: 'Date' } }
+                            }
+                        }
+                    });
+
+                    // Highest Sale Product
+                    const productDetails = document.getElementById('productDetails');
+                    if (data.highest_sale_product && data.highest_sale_product.item_name && data.highest_sale_product.total_quantity > 0) {
+                        productDetails.innerHTML = `
+                            <strong>Product:</strong> ${data.highest_sale_product.item_name}<br>
+                            <strong>Total Quantity Sold:</strong> ${data.highest_sale_product.total_quantity}
+                        `;
+                    } else {
+                        productDetails.innerHTML = 'No sales data available.';
+                    }
+
+                    // Food Category Analysis
+                    const categoryTableBody = document.querySelector('#categoryTable tbody');
+                    categoryTableBody.innerHTML = '';
+                    const categoryNoData = document.getElementById('categoryNoData');
+                    if (!data.category_analysis || data.category_analysis.length === 0) {
+                        categoryNoData.style.display = 'block';
+                    } else {
+                        data.category_analysis.forEach(item => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${item.category || 'N/A'}</td>
+                                <td>${item.item_name || 'N/A'}</td>
+                                <td>${item.item_count || 0}</td>
+                                <td>₹${parseFloat(item.total_revenue || 0).toFixed(2)}</td>
+                            `;
+                            categoryTableBody.appendChild(row);
+                        });
+                    }
+
+                    // Average Order Value
+                    const avgOrderValue = document.getElementById('avgOrderValue');
+                    avgOrderValue.innerHTML = `₹${parseFloat(data.average_order_value || 0).toFixed(2)}`;
+                })
+                .catch(error => {
+                    showLoading(false);
+                    document.getElementById('errorMessage').innerText = `Error fetching data: ${error.message}`;
+                    document.getElementById('errorMessage').style.display = 'block';
+                });
+        }
+
+        function resetFilter() {
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            fetchData();
+        }
+
+        // Initial fetch
+        fetchData();
+
+        // Date filter submission
+        document.getElementById('dateFilterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            if (startDate && endDate) {
+                if (new Date(startDate) <= new Date(endDate)) {
+                    fetchData(startDate, endDate);
+                } else {
+                    alert('Start date must be before or equal to end date.');
+                }
+            } else {
+                alert('Please select both start and end dates.');
+            }
+        });
+    </script>
+</body>
+</html>

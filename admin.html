@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            text-align: center;
+        }
+        
+        @import url('https://fonts.cdnfonts.com/css/pinata-markas');
+        
+        .nav {
+            background-color: #C864C8;
+            padding: 10px;
+            text-align: center;
+        }
+        .nav h1 {
+            font-size: 60px;
+            font-weight: bold;
+            color: #FFC107;
+            text-shadow: 3px 3px 0px #E53935;
+            font-family: 'Pinata Markas', sans-serif;
+            letter-spacing: 2px;
+            display: inline;
+        }
+        .nav span {
+            font-size: 25px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-shadow: 2px 2px 0px #E53935;
+            font-family: 'Pinata Markas', sans-serif;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 50px;
+            padding: 20px;
+        }
+        
+        .box {
+            width: 200px;
+            background: #EAEAEA;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        .box img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .box p {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .clock-container, .calendar-box {
+            width: 200px;
+            height: 200px;
+            background: #EAEAEA;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .clock {
+            width: 80%;
+            height: 80%;
+            border: 5px solid #545271;
+            border-radius: 50%;
+            position: relative;
+            background: #fefefc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: 50% 100%; /* Pivot at the bottom center */
+            transform: rotate(0deg); /* Initial position */
+        }
+        .hour-hand {
+            width: 30%;
+            height: 4px;
+            background: #545271;
+            transform-origin: 0% 100%; /* Pivot at base */
+        }
+        .min-hand {
+            width: 40%;
+            height: 3px;
+            background: #61afff;
+            transform-origin: 0% 100%;
+        }
+        .second-hand {
+            width: 45%;
+            height: 2px;
+            background: #ff5e5e;
+            transform-origin: 0% 100%;
+        }
+        
+        .calendar {
+            width: 80%;
+            height: 80%;
+            background: #FF6F61;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="nav">
+        <h1>☕HEART STRINGS</h1> <span>CAFE</span>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="box">
+            <img src="add.png" alt="Add Items">  
+            <p onclick="location.href='add.html'">Add items</p>
+        </div>
+        <div class="box">
+            <img src="or.png" alt="Orders Received">  
+            <p onclick="location.href='or.php'">Orders received </p>
+        </div>
+        <div class="box">
+            <img src="check.png" alt="Items Checklist">  
+            <p onclick="location.href='seeitems.html'">Items check list</p>
+        </div>
+        <div class="box">
+            <img src="addsb.png" alt="Ad Banner">  
+            <p onclick="location.href='updateslide.html'">Ad banner</p><br>
+        </div>
+        <div class="box">
+            <img src="chefe.png" alt="Staff">  
+            <p onclick="location.href='staff.php'">Staff</p>
+        </div>
+        <div class="box">
+            <img src="shop.png" alt="Shop">  
+            <p onclick="location.href='home.html'">Shop Now</p>
+        </div>
+        <div class="box">
+            <img src="contact.png" alt="Note">  
+            <p onclick="location.href='contact_note.php'">Message Note</p>
+        </div>
+        <div class="box">
+            <img src="feed.png" alt="review">  
+            <p onclick="location.href='review_display.php'">Reviews</p>
+        </div>
+        <div class="box">
+            <img src="user.png" alt="user_dashboard">  
+            <p onclick="location.href='user_dashboard.php'">User DashBoard</p>
+        </div>
+        <div class="box">
+            <img src="sales.png" alt="analytics">  
+            <p onclick="location.href='analytics.html'">Analytics</p>
+        </div>
+        <!-- Clock Widget -->
+        <div class="clock-container">
+            <div class="clock">
+                <div class="hand hour-hand"></div>
+                <div class="hand min-hand"></div>
+                <div class="hand second-hand"></div>
+            </div>
+        </div>
+
+        <!-- Calendar Widget -->
+        <div class="calendar-box">
+            <div class="calendar"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function updateClock() {
+            // Use system time directly
+            const now = new Date();
+            const hours = now.getHours() % 12 || 12; // 12-hour format, default 12 at midnight
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // Calculate degrees (0° at 12 o'clock, clockwise)
+            const hourDeg = (hours * 30) + (minutes / 2); // 30° per hour + 0.5° per minute
+            const minDeg = (minutes * 6); // 6° per minute
+            const secDeg = (seconds * 6); // 6° per second
+
+            // Apply rotations
+            document.querySelector(".hour-hand").style.transform = `rotate(${hourDeg}deg)`;
+            document.querySelector(".min-hand").style.transform = `rotate(${minDeg}deg)`;
+            document.querySelector(".second-hand").style.transform = `rotate(${secDeg}deg)`;
+
+            // Enhanced debugging
+            console.log(`System Time: ${now.toLocaleTimeString()} (UTC Offset: ${now.getTimezoneOffset() / -60} hours)`);
+            console.log(`Calculated Angles - Hour: ${hourDeg}°, Min: ${minDeg}°, Sec: ${secDeg}°`);
+        }
+
+        function updateCalendar() {
+            const now = new Date();
+            const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            const dayNames = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+            document.querySelector(".calendar").innerHTML = `
+                <span>${monthNames[now.getMonth()]}</span>
+                <span style="font-size: 40px;">${now.getDate()}</span>
+                <span>${dayNames[now.getDay()]}</span>
+            `;
+        }
+
+        // Initialize and update every second
+        setInterval(updateClock, 1000);
+        setInterval(updateCalendar, 60000);
+        window.onload = () => {
+            updateClock(); // Set initial time
+            updateCalendar(); // Set initial calendar
+        };
+    </script>
+
+</body>
+</html>

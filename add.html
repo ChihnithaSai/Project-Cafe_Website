@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Items</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 50px;
+            font-weight: bold;
+            color: orange;
+            margin-top: 20px;
+        }
+
+        .content-box {
+            width: 80%;
+            max-width: 500px;
+            background: #D19BF5;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: left;
+        }
+
+        label,
+        select,
+        input,
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: orange;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: darkorange;
+        }
+
+        .sidebar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .sidebar p {
+            margin: 5px 0;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .sidebar .admin {
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">ADD ITEMS</div>
+
+    <div class="content-box">
+
+        <form action="upload_item.php" method="POST" enctype="multipart/form-data">
+            <label>Category:</label>
+            <select name="category" required>
+                <option value="food">Food</option>
+                <option value="desserts">Desserts</option>
+                <option value="shakes">Shakes</option>
+                <option value="coffee">Coffee</option>
+            </select>
+        
+            <label>Item Name:</label>
+            <input type="text" name="item_name" required>
+        
+            <label>Price:</label>
+            <input type="number" name="price" required step="0.01">
+        
+            <label>Image:</label>
+            <input type="file" name="image" accept="image/*" required>
+        
+            <button type="submit">Upload</button>
+        </form>
+        
+
+        <div class="sidebar">
+            <button style="background-color:blueviolet; border-color: transparent;">
+                <p class="admin"><a href="admin.html" style="text-decoration: none; color: orange;">HOME</a></p>
+            </button>
+
+        </div>
+
+        <script>
+            function addItem() {
+                let category = document.getElementById('category').value;
+                let name = document.getElementById('itemName').value;
+                let price = document.getElementById('itemPrice').value;
+                let imageInput = document.getElementById('itemImage');
+
+                if (!name || !price || !imageInput.files.length) {
+                    alert('Please enter item name, price, and select an image');
+                    return;
+                }
+
+                let reader = new FileReader();
+                reader.readAsDataURL(imageInput.files[0]);
+
+                reader.onload = function () {
+                    let imageUrl = reader.result;
+                    let newItem = { category, name, price, imageUrl };
+
+                    let items = JSON.parse(localStorage.getItem('cafeItems')) || [];
+                    items.push(newItem);
+                    localStorage.setItem('cafeItems', JSON.stringify(items));
+
+                    alert("Item added successfully!");
+                };
+            }
+        </script>
+</body>
+
+</html>
